@@ -1,86 +1,74 @@
 import Loading from "@/layout/Loading";
 import axios from "axios";
-import { parseStringPromise } from "xml2js";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
+// API DO SIBH
 export default function Hidro() {
-  async function fetchData() {
-    const response = await axios.get(
-      "http://telemetriaws1.ana.gov.br/ServiceANA.asmx/DadosHidrometeorologicosGerais?codEstacao=81683000&dataInicio=08/08/2023&dataFim=08/08/2023"
-    );
-    const json = await parseStringPromise(response.data);
-    const dados =
-      json["DataTable"]["diffgr:diffgram"][0]["DocumentElement"][0][
-        "DadosHidrometereologicos"
-      ];
-    console.log(dados);
-  }
-  fetchData();
+  const [removeLoading, setRemoveLoading] = useState(false);
+
+  const [hidro, setHidro] = useState([
+    { estacao: "81683000", dataInicial: "2023-08-14" },
+  ]);
+
+  const [hydroData, setHydroData] = useState([]);
+
+  const fetchHydroData = async () => {
+    const newData = [];
+    for (const local of hidro) {
+      try {
+        const res = await axios.get(
+          `http://sibh.daee.sp.gov.br/api/medicoes?prefixo=${local.estacao}&data=${local.dataInicial}`
+        );
+
+        newData.push({
+          nome_do_posto: res.data.medicoes[0].nome_do_posto,
+          valor_leitura: res.data.medicoes[0].valor_leitura,
+        });
+        console.log(newData);
+        setRemoveLoading(true);
+      } catch (err) {
+        alert("O painel está em manutenção. Tente novamente mais tarde.");
+      }
+    }
+
+    setHydroData(newData);
+  };
+
+  useEffect(() => {
+    fetchHydroData();
+  }, []);
+
+  return (
+    <>
+      {hydroData.map((data, index) => (
+        <div key={index}>
+          <div>
+            <div>
+              <h1>{data.nome_do_posto}</h1>
+            </div>
+            <div>
+              <h1>{data.valor_leitura}</h1>
+            </div>
+          </div>
+        </div>
+      ))}
+      {!removeLoading && <Loading />}
+    </>
+  );
 }
 
-//   const [data, setData] = useState([]);
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       const result = await axios
-//         .get(
-//           "http://telemetriaws1.ana.gov.br/ServiceANA.asmx/DadosHidrometeorologicosGerais?codEstacao=81683000&dataInicio=08/08/2023&dataFim=08/08/2023"
-//         )
-//         .then((response) => {
-//           console.log(response);
-//         });
-
-//       //   setData(result.data);
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   return (
-//     <ul>
-//       {data.map((item) => (
-//         <li key={item.id}>
-//           {item.name} {item.price}
-//         </li>
-//       ))}
-//     </ul>
-//   );
-// }
-
+// // API DA ANA (XML)
 // export default function Hidro() {
-//   const [hydroData, setHydroData] = useState([]);
-//     const fechHydroData = async () => {
-//       const newData = [];
-//       const codEstacao = { number: "81683000" };
-//       const dataInicio = { startDate: "08/08/2023" };
-//       const dataFim = { endDate: "08/08/2023" };
-
-//       try {
-//         const res = await axios.get(
-//           `http://telemetriaws1.ana.gov.br/ServiceANA.asmx/DadosHidrometeorologicosGerais?${codEstacao.number}&${dataInicio.startDate}&${dataFim.endDate}`
-//         );
-//         newData.push({
-//           VazaoFinal: res.data.VazaoFinal,
-//         });
-//       } catch (err) {}
-
-//       setHydroData(newData);
-//     };
-//     console.log(fechHydroData);
-
-//     useEffect(() => {
-//       fetchHydroData();
-//     }, []);
-
-//   return (
-//     <>
-//       {hydroData.map((data, index) => (
-//         <div key={index}>
-//           <div>
-//             <h1>{data.VazaoFinal}</h1>
-//           </div>
-//         </div>
-//       ))}
-//     </>
-//   );
+//   async function fetchData() {
+//     const response = await axios.get(
+//       "http://telemetriaws1.ana.gov.br/ServiceANA.asmx/DadosHidrometeorologicosGerais?codEstacao=81683000&dataInicio=08/08/2023&dataFim=08/08/2023"
+//     );
+//     const json = await parseStringPromise(response.data);
+//     const dados =
+//       json["DataTable"]["diffgr:diffgram"][0]["DocumentElement"][0][
+//         "DadosHidrometereologicos"
+//       ];
+//     console.log(dados);
+//   }
+//   fetchData();
 // }
