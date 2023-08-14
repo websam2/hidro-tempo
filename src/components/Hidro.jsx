@@ -1,36 +1,51 @@
 import Loading from "@/layout/Loading";
 import axios from "axios";
+import { parseStringPromise } from "xml2js";
 import { useState, useEffect } from "react";
 
 export default function Hidro() {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios
-        .get(
-          "http://telemetriaws1.ana.gov.br/ServiceANA.asmx/DadosHidrometeorologicosGerais?codEstacao=81683000&dataInicio=08/08/2023&dataFim=08/08/2023"
-        )
-        .then((response) => {
-          console.log(response);
-        });
-
-      //   setData(result.data);
-    };
-
-    fetchData();
-  }, []);
-
-  return (
-    <ul>
-      {/* {data.map((item) => (
-        <li key={item.id}>
-          {item.name} {item.price}
-        </li>
-      ))} */}
-    </ul>
-  );
+  async function fetchData() {
+    const response = await axios.get(
+      "http://telemetriaws1.ana.gov.br/ServiceANA.asmx/DadosHidrometeorologicosGerais?codEstacao=81683000&dataInicio=08/08/2023&dataFim=08/08/2023"
+    );
+    const json = await parseStringPromise(response.data);
+    const dados =
+      json["DataTable"]["diffgr:diffgram"][0]["DocumentElement"][0][
+        "DadosHidrometereologicos"
+      ];
+    console.log(dados);
+  }
+  fetchData();
 }
+
+//   const [data, setData] = useState([]);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       const result = await axios
+//         .get(
+//           "http://telemetriaws1.ana.gov.br/ServiceANA.asmx/DadosHidrometeorologicosGerais?codEstacao=81683000&dataInicio=08/08/2023&dataFim=08/08/2023"
+//         )
+//         .then((response) => {
+//           console.log(response);
+//         });
+
+//       //   setData(result.data);
+//     };
+
+//     fetchData();
+//   }, []);
+
+//   return (
+//     <ul>
+//       {data.map((item) => (
+//         <li key={item.id}>
+//           {item.name} {item.price}
+//         </li>
+//       ))}
+//     </ul>
+//   );
+// }
 
 // export default function Hidro() {
 //   const [hydroData, setHydroData] = useState([]);
