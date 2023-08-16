@@ -1,5 +1,5 @@
-import TempoLocal from "../components/TempoLocal.jsx";
-import Hidro from "../components/Hidro.jsx";
+import TempoLocal from "./components/TempoLocal.jsx";
+import CardHidro from "./components/CardHidro.jsx";
 
 export default function Home() {
   return (
@@ -8,8 +8,8 @@ export default function Home() {
         <div className="flex flex-col justify-center items-center w-1/4 h-full border-y-gray-light">
           <TempoLocal />
         </div>
-        <div className=" right-10-8 bg-blue3 w-3/4 h-full border-y-gray-light rounded-4xl">
-          <Hidro />
+        <div className=" right-10-8 p-8 bg-blue3 w-3/4 h-full border-y-gray-light rounded-4xl">
+          <CardHidro />
         </div>
       </div>
     </main>

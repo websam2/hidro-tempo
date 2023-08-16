@@ -7,7 +7,7 @@ export default function Hidro() {
   const [removeLoading, setRemoveLoading] = useState(false);
 
   const [hidro, setHidro] = useState([
-    { estacao: "81683000", dataInicial: "2023-08-14" },
+    { estacao: "81683000", dataInicial: new Date().toISOString().slice(0, 10) },
   ]);
 
   const [hydroData, setHydroData] = useState([]);
@@ -39,21 +39,15 @@ export default function Hidro() {
   }, []);
 
   return (
-    <>
+    <div>
       {hydroData.map((data, index) => (
         <div key={index}>
-          <div>
-            <div>
-              <h1>{data.nome_do_posto}</h1>
-            </div>
-            <div>
-              <h1>{data.valor_leitura}</h1>
-            </div>
-          </div>
+          <p>{data.nome_do_posto}</p>
+          <p>{data.valor_leitura}</p>
         </div>
       ))}
       {!removeLoading && <Loading />}
-    </>
+    </div>
   );
 }
 
