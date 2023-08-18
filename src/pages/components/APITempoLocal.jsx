@@ -2,7 +2,7 @@ import Loading from "@/layout/Loading";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function TempoLocal() {
+export default function APITempoLocal() {
   const [removeLoading, setRemoveLoading] = useState(false);
 
   const [cities, setCities] = useState([

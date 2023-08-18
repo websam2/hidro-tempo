@@ -3,12 +3,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 // API DO SIBH
-export default function SIBHHidro(props) {
+export default function APISIBH(props) {
   const [removeLoading, setRemoveLoading] = useState(false);
 
   const [hidro, setHidro] = useState([
     {
-      estacao: props.number,
+      estacao: props.codEstacaoSIBH,
       dataInicial: new Date().toISOString().slice(0, 10),
     },
   ]);
