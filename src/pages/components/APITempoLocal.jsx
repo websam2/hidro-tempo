@@ -1,6 +1,6 @@
 import Loading from "@/layout/Loading";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function APITempoLocal() {
   const [removeLoading, setRemoveLoading] = useState(false);
@@ -26,10 +26,12 @@ export default function APITempoLocal() {
           weather: res.data.weather[0].description,
           tempMin: res.data.main.temp_min,
           tempMax: res.data.main.temp_max,
+          icon: res.data.weather[0].icon,
         });
         setRemoveLoading(true);
       } catch (err) {
-        alert("O painel está em manutenção. Tente novamente mais tarde.");
+        res.status(err.response ? err.response.status : 500);
+        res.send(err.message || "Algo de errado! Por favor tente mais tarde.");
       }
     }
     setWeatherData(newData);
@@ -71,13 +73,13 @@ export default function APITempoLocal() {
               <div>
                 <div>Mínima:</div>
                 <div>
-                  <h2>{data.tempMin}º</h2>
+                  <h2>{data.tempMin}ºC</h2>
                 </div>
               </div>
               <div>
                 <div>Máxima:</div>
                 <div>
-                  <h2>{data.tempMax}º</h2>
+                  <h2>{data.tempMax}ºC</h2>
                 </div>
               </div>
             </div>
@@ -85,7 +87,8 @@ export default function APITempoLocal() {
 
           <div className="flex flex-col justify-center items-center">
             <div className="text-7xl">
-              <h2>{data.temperature}º</h2>
+              <div id="icon">{data.icon}</div>
+              <h2>{data.temperature}ºC</h2>
             </div>
             <div>
               <h2>{data.weather}</h2>

@@ -1,7 +1,8 @@
 import Loading from "@/layout/Loading";
 import axios from "axios";
 import { parseStringPromise } from "xml2js";
-import { useEffect, useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
 // API DA ANA (XML)
 export default function APIANA(props) {
@@ -16,6 +17,8 @@ export default function APIANA(props) {
   ]);
 
   const [valorMetros, setDados] = useState(null);
+
+  const intervalRef = useRef(null);
 
   async function fetchData() {
     for (const local of hidro) {
@@ -32,31 +35,38 @@ export default function APIANA(props) {
         const metros = dados;
         const valor = metros * 0.01;
         const valorMetros = valor.toFixed(2) + "m";
-        console.log(valorMetros);
 
         setDados(valorMetros);
 
         setRemoveLoading(true);
-      } catch (err) {}
+      } catch (err) {
+        !removeLoading && <Loading />;
+      }
     }
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      fetchData();
+    }, 600000);
   }
 
   useEffect(() => {
     fetchData();
-  });
-
-  setInterval(() => {
-    fetchData();
-  }, 600000);
+    intervalRef.current = setInterval(() => {
+      fetchData();
+    }, 600000);
+    return () => clearInterval(intervalRef.current);
+  }, []);
 
   return (
     <div>
-      {valorMetros === null || valorMetros === 0 || valorMetros === 0.0 ? (
-        <p>Está em manutenção.</p>
+      {valorMetros === null || valorMetros === 0 || valorMetros === "0.00m" ? (
+        <p className="text-warning">Está em manutenção.</p>
       ) : (
-        <p>{valorMetros}</p>
+        <div className="flex flex-row justify-center items-center">
+          <p className="font-bold">{valorMetros}</p>
+          <Image src="/ruler.png" alt="ruler" width={25} height={25} />
+        </div>
       )}
-      {!removeLoading && <Loading />}
     </div>
   );
 }

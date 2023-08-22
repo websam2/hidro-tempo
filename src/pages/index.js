@@ -1,4 +1,4 @@
-import APITempoLocal from "./components/APITempoLocal.jsx";
+import APITempo from "./components/APITempo.jsx";
 import CardHidro from "./components/CardHidro.jsx";
 
 export default function Home() {
@@ -6,7 +6,7 @@ export default function Home() {
     <main className="flex justify-center items-center bg-blue2 h-screen w-screen p-24">
       <div className="flex flex-row rounded-4xl h-full w-screen bg-blue shadow-xl">
         <div className="flex flex-col justify-center items-center w-1/4 h-full border-y-gray-light">
-          <APITempoLocal />
+          <APITempo />
         </div>
         <div className="flex flex-wrap justify-center right-10-8 p-8 bg-blue3 w-3/4 h-full border-y-gray-light rounded-4xl">
           <CardHidro />
