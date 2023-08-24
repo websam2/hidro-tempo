@@ -1,16 +1,30 @@
-import APITempo from "./components/APITempo.jsx";
-import CardHidro from "./components/CardHidro.jsx";
+import { useState } from "react";
+import ModalFlu from "./components/ModalFlu.jsx";
+import ModalPlu from "./components/ModalPlu.jsx";
 
 export default function Home() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <main className="flex justify-center items-center bg-blue2 h-screen w-screen p-24">
-      <div className="flex flex-row rounded-4xl h-full w-screen bg-blue shadow-xl">
-        <div className="flex flex-col justify-center items-center w-1/4 h-full border-y-gray-light">
-          <APITempo />
-        </div>
-        <div className="flex flex-wrap justify-center right-10-8 p-8 bg-blue3 w-3/4 h-full border-y-gray-light rounded-4xl">
-          <CardHidro />
-        </div>
+    <main className="flex">
+      <div className="flex flex-col justify-center items-center bg-blue2 h-screen w-screen">
+        <button
+          className="btn w-1/2 bg-blue hover:bg-blue3 text-blue3 hover:text-blue"
+          onClick={() => setOpen(!open)}
+        >
+          DADOS FLUVIOMÉTRICOS
+        </button>
+        <ModalFlu isOpen={open} setOpen={setOpen} />
+      </div>
+
+      <div className="flex flex-col justify-center items-center bg-blue2 h-screen w-screen">
+        <button
+          className="btn w-1/2 bg-blue hover:bg-blue3 text-blue3 hover:text-blue"
+          onClick={() => setOpen(!open)}
+        >
+          DADOS PLUVIOMÉTRICOS
+        </button>
+        <ModalPlu isOpen={open} setOpen={setOpen} />
       </div>
     </main>
   );
