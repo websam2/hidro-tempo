@@ -1,6 +1,8 @@
 import Loading from "@/layout/Loading";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import Level from "./LevelAlert";
 
 // API DO SIBH
 export default function APISIBH(props) {
@@ -38,14 +40,14 @@ export default function APISIBH(props) {
   }, []);
 
   return (
-    <div>
+    <section className="flex flex-col justify-center w-52 h-40 items-center m-4 p-4 bg-white rounded-md">
       {hydroData.map((data, index) => (
         <div key={index}>
-          <p>{data.nome_do_posto}</p>
-          <p>{data.valor_leitura}</p>
+          <p className="font-bold">{data.nome_do_posto}</p>
+          <p className="font-bold">{data.valor_leitura}</p>
         </div>
       ))}
       {!removeLoading && <Loading />}
-    </div>
+    </section>
   );
 }

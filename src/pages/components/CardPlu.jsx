@@ -1,6 +1,6 @@
 import APITempo from "./APITempo";
 import codEstacao from "../../json/bdPlu.json";
-import APISIBH from "./APISIBH";
+import APISIBHTest from "./APISIBHTest";
 
 export default function CardPlu() {
   return (
@@ -12,10 +12,9 @@ export default function CardPlu() {
           </section>
 
           <section className="flex flex-wrap justify-center right-10-8 p-8 bg-blue3 w-3/4 h-full border-y-gray-light rounded-4xl">
-            <APISIBH />
-            {/* {codEstacao.map((codEstacao) => (
-              <APIANA id={codEstacao.id} key={codEstacao.id} />
-            ))} */}
+            {codEstacao.map((codEstacao) => (
+              <APISIBHTest id={codEstacao.id} key={codEstacao.id} />
+            ))}
           </section>
         </div>
       </div>
