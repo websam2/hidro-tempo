@@ -1,25 +1,22 @@
-import Loading from "@/layout/Loading";
 import axios from "axios";
 import { parseStringPromise } from "xml2js";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Level from "./LevelAlert";
+import bdFlu from "../../json/bdFlu.json";
 
 // API DA ANA (XML)
-export default function APIANA({ id, name }) {
-  const [removeLoading, setRemoveLoading] = useState(false);
-
+export default function APIANA({ id, nome = "default" }) {
   const [hidro, setHidro] = useState([
     {
+      posto: nome,
       estacao: id,
-      posto: name,
       dataInicio: new Date().toISOString().slice(0, 10),
       dataFim: new Date().toISOString().slice(0, 10),
     },
   ]);
 
   const [valorMetros, setDados] = useState(null);
-
   const intervalRef = useRef(null);
 
   async function fetchData() {
@@ -34,16 +31,20 @@ export default function APIANA({ id, name }) {
             "DadosHidrometereologicos"
           ][0]["NivelSensor"];
 
+        //conversão para metros
         const metros = dados;
         const valor = metros * 0.01;
         const valorMetros = valor.toFixed(2) + "m";
-
         setDados(valorMetros);
 
-        setRemoveLoading(true);
-      } catch (err) {
-        !removeLoading && <Loading />;
-      }
+        //dados em JSON para buscar os nomes dos postos
+        const postoName = Object.values(bdFlu)
+          .filter((obj) => obj && obj.hasOwnProperty("name"))
+          .map((obj) => obj.name)
+          .concat(local.posto);
+
+        console.log(postoName);
+      } catch (err) {}
     }
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
@@ -57,7 +58,7 @@ export default function APIANA({ id, name }) {
       fetchData();
     }, 600000);
     return () => clearInterval(intervalRef.current);
-  }, []);
+  });
 
   return (
     <section className="flex flex-col justify-center w-52 h-40 items-center m-4 p-4 bg-white rounded-md">
@@ -67,6 +68,7 @@ export default function APIANA({ id, name }) {
         <div className="flex flex-col items-center">
           <div className="flex flex-row justify-center items-center">
             <p className="font-bold">{valorMetros}</p>
+            <p></p>
             <Image src="/ruler.png" alt="ruler" width={25} height={25} />
           </div>
           <Level />

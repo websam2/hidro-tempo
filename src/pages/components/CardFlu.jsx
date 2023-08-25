@@ -12,8 +12,13 @@ export default function CardFlu() {
           </section>
 
           <section className="flex flex-wrap justify-center right-10-8 p-8 bg-blue3 w-3/4 h-full border-y-gray-light rounded-4xl">
-            {codEstacao.map((codEstacao) => (
-              <APIANA id={codEstacao.id} key={codEstacao.id} />
+            {codEstacao.map((codEstacao, posto) => (
+              <APIANA
+                id={codEstacao.id}
+                key={codEstacao.id}
+                id2={posto.nome}
+                key2={posto.nome}
+              />
             ))}
           </section>
         </div>

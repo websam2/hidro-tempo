@@ -10,7 +10,7 @@ export default function Home() {
     <main className="flex">
       <div className="flex sm:flex-col sm:justify-center sm:items-center bg-blue2 h-screen w-screen">
         <button
-          className="btn sm:w-1/2 bg-blue hover:bg-blue3 text-blue3 hover:text-blue"
+          className="p-6 bg-blue hover:bg-blue3 text-blue3 hover:text-blue sm:text-4xl border-2 m-4 rounded-lg"
           onClick={() => setOpenFlu(!openFlu)}
         >
           DADOS FLUVIOMÉTRICOS
@@ -19,10 +19,7 @@ export default function Home() {
       </div>
 
       <div className="flex sm:flex-col sm:justify-center sm:items-center bg-blue2 h-screen w-screen">
-        <button
-          className="btn sm:w-1/2 bg-blue hover:bg-blue3 text-blue3 hover:text-blue"
-          onClick={() => setOpenPlu(!openPlu)}
-        >
+        <button className="p-6 bg-blue hover:bg-blue3 text-blue3 hover:text-blue sm:text-4xl border-2 m-4 rounded-lg">
           DADOS PLUVIOMÉTRICOS
         </button>
         <ModalPlu isOpen={openPlu} setOpenPlu={setOpenPlu} />
