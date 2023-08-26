@@ -6,10 +6,10 @@ import Level from "./LevelAlert";
 import bdFlu from "../../json/bdFlu.json";
 
 // API DA ANA (XML)
-export default function APIANA({ id, nome = "default" }) {
+export default function APIANA({ id, name }) {
   const [hidro, setHidro] = useState([
     {
-      posto: nome,
+      posto: name,
       estacao: id,
       dataInicio: new Date().toISOString().slice(0, 10),
       dataFim: new Date().toISOString().slice(0, 10),
@@ -37,13 +37,18 @@ export default function APIANA({ id, nome = "default" }) {
         const valorMetros = valor.toFixed(2) + "m";
         setDados(valorMetros);
 
-        //dados em JSON para buscar os nomes dos postos
-        const postoName = Object.values(bdFlu)
-          .filter((obj) => obj && obj.hasOwnProperty("name"))
-          .map((obj) => obj.name)
-          .concat(local.posto);
+        console.log(valorMetros);
 
-        console.log(postoName);
+        //dados em JSON para buscar os as dos postos
+        const postoName = Object.values(bdFlu).find(
+          (obj) => obj && obj.hasOwnProperty("name")
+        ).name;
+
+        const listName = postoName + local.posto;
+
+        const names = bdFlu.map((item) => item.name);
+
+        console.log(names);
       } catch (err) {}
     }
     clearInterval(intervalRef.current);
@@ -66,11 +71,11 @@ export default function APIANA({ id, nome = "default" }) {
         <p className="text-warning">Está em manutenção</p>
       ) : (
         <div className="flex flex-col items-center">
-          <div className="flex flex-row justify-center items-center">
+          <section className="flex flex-row justify-center items-center">
+            <p>{}</p>
             <p className="font-bold">{valorMetros}</p>
-            <p></p>
             <Image src="/ruler.png" alt="ruler" width={25} height={25} />
-          </div>
+          </section>
           <Level />
         </div>
       )}

@@ -9,12 +9,10 @@ export default function ModalFlu({ isOpen, setOpen }) {
           SISTEMA DE MONITORAMENTO - VALE DO RIBEIRA
         </h1>
         {/* <button onClick={() => setOpen(!isOpen)}>Fechar</button> */}
-        <div>
-          <div className="flex flex-col items-center">
-            <CardFlu />
-            <ButtonFooter />
-          </div>
-        </div>
+        <section className="flex flex-col items-center bg-blue2">
+          <CardFlu />
+          <ButtonFooter />
+        </section>
       </div>
     );
   }

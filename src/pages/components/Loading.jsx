@@ -1,5 +1,4 @@
-import styles from "./Loading.module.css";
-import loading from "../../public/Ripple-2.3s-200px.svg";
+import loading from "/public/Ripple-2.3s-200px.svg";
 import Image from "next/image";
 
 export default function Loading() {

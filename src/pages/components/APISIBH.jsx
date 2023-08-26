@@ -1,4 +1,4 @@
-import Loading from "@/layout/Loading";
+import Loading from "@/pages/components/Loading";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Image from "next/image";

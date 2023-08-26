@@ -1,4 +1,4 @@
-import Loading from "@/layout/Loading";
+import Loading from "@/pages/components/Loading";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -37,7 +37,7 @@ export default function APITempo() {
     <div className="flex flex-col text-white items-center">
       <div className="flex flex-row">
         <div className="flex flex-col m-4">
-          <h1 className="text-xl">{weatherData.city}</h1>
+          <h1 className="text-xl font-bold">{weatherData.city}</h1>
           <div>
             {new Date().toLocaleDateString("pt-BR", {
               weekday: "long",
@@ -48,11 +48,11 @@ export default function APITempo() {
         </div>
         <div className="flex flex-col m-4">
           <div>
-            <div>Mínima:</div>
+            <div className="font-bold">Mínima:</div>
             <h2>{weatherData.tempMin}ºC</h2>
           </div>
           <div>
-            <div>Máxima:</div>
+            <div className="font-bold">Máxima:</div>
             <h2>{weatherData.tempMax}ºC</h2>
           </div>
         </div>
