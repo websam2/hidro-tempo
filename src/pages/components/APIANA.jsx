@@ -66,7 +66,7 @@ export default function APIANA({ id, name }) {
   });
 
   return (
-    <section className="flex flex-col justify-center w-52 h-40 items-center m-4 p-4 bg-white rounded-md">
+    <section className="flex flex-col justify-center w-48 items-center m-2 p-4 bg-white rounded-md">
       {valorMetros === null || valorMetros === 0 || valorMetros === "0.00m" ? (
         <p className="text-warning">Está em manutenção</p>
       ) : (
