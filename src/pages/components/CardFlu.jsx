@@ -4,12 +4,12 @@ import codEstacao from "../../json/bdFlu.json";
 
 export default function CardFlu() {
   return (
-    <div className="flex flex-col justify-center items-center bg-blue2 p-10">
-      <div className="flex flex-row rounded-4xl bg-blue shadow-xl">
-        <section className="flex flex-col justify-center items-center w-1/4 p-12 border-y-gray-light">
+    <div className="flex flex-col justify-center items-center sm:bg-blue2 sm:p-10">
+      <div className="flex sm:flex-row flex-col sm:rounded-4xl bg-blue shadow-xl">
+        <section className="flex flex-col justify-center items-center sm:w-1/4 sm:p-12 m-4 sm:m-0 sm:border-y-gray-light">
           <APITempo />
         </section>
-        <section className="flex flex-wrap justify-center p-4 bg-blue3 w-3/4 border-y-gray-light rounded-4xl">
+        <section className="flex flex-wrap justify-center p-4 bg-blue3 sm:w-3/4 border-y-gray-light rounded-4xl">
           {codEstacao.map((estacao, posto) => (
             <APIANA
               id={estacao.id}
