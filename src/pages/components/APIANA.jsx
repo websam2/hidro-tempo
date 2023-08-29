@@ -3,13 +3,12 @@ import { parseStringPromise } from "xml2js";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Level from "./LevelAlert";
-import bdFlu from "../../json/bdFlu.json";
+import NomePosto from "./NomePosto";
 
 // API DA ANA (XML)
-export default function APIANA({ id, name }) {
+export default function APIANA({ id }) {
   const [hidro, setHidro] = useState([
     {
-      posto: name,
       estacao: id,
       dataInicio: new Date().toISOString().slice(0, 10),
       dataFim: new Date().toISOString().slice(0, 10),
@@ -38,17 +37,6 @@ export default function APIANA({ id, name }) {
         setDados(valorMetros);
 
         console.log(valorMetros);
-
-        //dados em JSON para buscar os as dos postos
-        const postoName = Object.values(bdFlu).find(
-          (obj) => obj && obj.hasOwnProperty("name")
-        ).name;
-
-        const listName = postoName + local.posto;
-
-        const names = bdFlu.map((item) => item.name);
-
-        console.log(names);
       } catch (err) {}
     }
     clearInterval(intervalRef.current);
@@ -71,8 +59,11 @@ export default function APIANA({ id, name }) {
         <p className="text-warning">Está em manutenção</p>
       ) : (
         <div className="flex flex-col items-center">
+          <section>
+            <NomePosto />
+          </section>
+
           <section className="flex flex-row justify-center items-center">
-            <p>{}</p>
             <p className="font-bold">{valorMetros}</p>
             <Image src="/ruler.png" alt="ruler" width={25} height={25} />
           </section>

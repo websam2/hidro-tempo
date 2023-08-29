@@ -35,8 +35,8 @@ export default function APITempo() {
 
   return (
     <div className="flex flex-col text-white items-center">
-      <div className="flex flex-row">
-        <div className="flex flex-col m-4">
+      <div className="flex flex-row sm:flex-col md:flex-row items-center">
+        <div className="flex flex-col sm:m-4">
           <h1 className="text-xl font-bold">{weatherData.city}</h1>
           <div>
             {new Date().toLocaleDateString("pt-BR", {
@@ -58,7 +58,7 @@ export default function APITempo() {
         </div>
       </div>
 
-      <div className="flex flex-col items-center text-7xl">
+      <div className="flex flex-col items-center text-7xl sm:text-6xl md:text-7xl">
         <h2>{weatherData.temperature}ºC</h2>
         <img className="w-2/3" src={weatherData.icon} alt="icon" />
       </div>
