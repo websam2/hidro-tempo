@@ -1,6 +1,7 @@
-import APITempo from "./APITempo";
-import APIANA from "./APIANA";
-import codEstacao from "../../json/bdFlu.json";
+import APITempo from "./APIOpenWeather";
+import Card from "./Card";
+// import APIANA from "./APIANA";
+// import codEstacao from "../../json/bdFlu.json";
 
 export default function CardFlu() {
   return (
@@ -10,10 +11,13 @@ export default function CardFlu() {
           <APITempo />
         </section>
         <section className="flex flex-wrap justify-center sm:p-4 bg-blue3 sm:w-3/4 border-y-gray-light rounded-4xl">
+          <Card />
+        </section>
+        {/* <section className="flex flex-wrap justify-center sm:p-4 bg-blue3 sm:w-3/4 border-y-gray-light rounded-4xl">
           {codEstacao.map((estacao) => (
             <APIANA id={estacao.id} key={estacao.id} />
           ))}
-        </section>
+        </section> */}
       </div>
     </div>
   );

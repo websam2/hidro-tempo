@@ -2,45 +2,37 @@ import axios from "axios";
 import { parseStringPromise } from "xml2js";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import Level from "./LevelAlert";
-import NomePosto from "./NomePosto";
 
-// API DA ANA (XML)
 export default function APIANA({ id }) {
-  const [hidro, setHidro] = useState([
-    {
-      estacao: id,
-      dataInicio: new Date().toISOString().slice(0, 10),
-      dataFim: new Date().toISOString().slice(0, 10),
-    },
-  ]);
-
-  const [valorMetros, setDados] = useState(null);
+  const [dataHora, setDataHora] = useState(null);
+  const [nivelSensor, setNivelSensor] = useState(null);
   const intervalRef = useRef(null);
+  const dataAtual = new Date().toISOString();
 
   async function fetchData() {
-    for (const local of hidro) {
-      try {
-        const response = await axios.get(
-          `http://telemetriaws1.ana.gov.br/ServiceANA.asmx/DadosHidrometeorologicosGerais?codEstacao=${local.estacao}&dataInicio=${local.dataInicio}&dataFim=${local.dataFim}`
-        );
-        const json = await parseStringPromise(response.data);
-        const dados =
-          json["DataTable"]["diffgr:diffgram"][0]["DocumentElement"][0][
-            "DadosHidrometereologicos"
-          ][0]["NivelSensor"];
+    try {
+      const response = await axios.get(
+        `http://telemetriaws1.ana.gov.br/ServiceANA.asmx/DadosHidrometeorologicosGerais?codEstacao=${id}&dataInicio=${dataAtual}&dataFim=${dataAtual}`
+      );
+      const json = await parseStringPromise(response.data);
 
-        //conversão para metros
-        const metros = dados;
-        const valor = metros * 0.01;
-        const valorMetros = valor.toFixed(2) + "m";
-        setDados(valorMetros);
+      const dataHora =
+        json["DataTable"]["diffgr:diffgram"][0]["DocumentElement"][0][
+          "DadosHidrometereologicos"
+        ][0]["DataHora"];
 
-        console.log(valorMetros);
-      } catch (err) {}
+      const nivelSensor =
+        json["DataTable"]["diffgr:diffgram"][0]["DocumentElement"][0][
+          "DadosHidrometereologicos"
+        ][0]["NivelSensor"];
+
+      setDataHora(dataHora);
+      setNivelSensor(nivelSensor);
+    } catch (err) {
+      console.error(err);
     }
     clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(() => {
+    intervalRef.current = setTimeout(() => {
       fetchData();
     }, 600000);
   }
@@ -54,22 +46,34 @@ export default function APIANA({ id }) {
   });
 
   return (
-    <section className="flex flex-col justify-center w-48 items-center m-2 p-4 bg-white rounded-md">
-      {valorMetros === null || valorMetros === 0 || valorMetros === "0.00m" ? (
+    <>
+      {nivelSensor === null ||
+      nivelSensor === 0 ||
+      nivelSensor === "0.00" ||
+      nivelSensor === "" ? (
         <p className="text-warning">Está em manutenção</p>
       ) : (
-        <div className="flex flex-col items-center">
-          <section>
-            <NomePosto />
+        <div>
+          <section className="flex flex-col items-center">
+            <h1 className="flex font-bold text-2xl m-4">
+              <Image src="/ruler.png" alt="regua" width={20} height={20} />
+              {nivelSensor + "mm"}
+            </h1>
+            <div className="flex flex-row">
+              <Image
+                src="/atualizar.png"
+                alt="atualizar"
+                width={25}
+                height={0}
+              />
+              <p className="ml-2">Último registro: {dataHora}</p>
+            </div>
           </section>
-
-          <section className="flex flex-row justify-center items-center">
-            <p className="font-bold">{valorMetros}</p>
-            <Image src="/ruler.png" alt="ruler" width={25} height={25} />
+          <section className="bg-green rounded-md mt-6">
+            <p className="text-center">Nível: atenção</p>
           </section>
-          <Level />
         </div>
       )}
-    </section>
+    </>
   );
 }
