@@ -1,38 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# hidro-tempo
 
-## Getting Started
+## Descrição
 
-First, run the development server:
+hidro-tempo é um dashboard de Sistema de Monitoramento Fluvial que utiliza a API da Agência Nacional de Águas e Saneamento Básico (ANA) para exibir todos os postos instalados no Vale do Ribeira. O objetivo deste projeto é facilitar o acesso às informações sobre os níveis dos rios no Vale do Ribeira, uma região que sofre com enchentes em alguns locais.
 
-```bash
+Com o dashboard, é possível visualizar:
+- Nomes dos locais
+- Medições em milímetros
+- Datas e horários dos últimos registros
+- Alertas do nível em tempo real
+- Temperatura e clima atual (usando dados do Open Weather Map)
+
+## Pré-requisitos
+
+Certifique-se de ter as seguintes ferramentas instaladas em seu ambiente de desenvolvimento:
+
+- [Node.js](https://nodejs.org/) (que inclui npm)
+- [React](https://reactjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Axios](https://axios-http.com/)
+- [DaisyUI](https://daisyui.com/)
+
+## Instalação
+
+Siga estes passos para configurar o projeto em sua máquina local:
+
+1. Clone o repositório:
+git clone https://github.com/websam2/hidro-tempo.git
+
+2. Navegue até o diretório do projeto:
+cd hidro-tempo
+
+3. Instale as dependências:
+npm install
+
+4. Instale o Tailwind CSS:
+npm install -D tailwindcss
+
+5. Instale o Axios:
+npm install axios
+
+6. Instale o DaisyUI:
+npm install daisyui
+
+## Uso
+
+Para iniciar o servidor de desenvolvimento, execute:
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Isso iniciará o aplicativo em modo de desenvolvimento. Abra [http://localhost:3000](http://localhost:3000) para visualizá-lo no navegador.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Funcionalidades
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+O hidro-tempo oferece as seguintes funcionalidades principais:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+1. **Visualização de Dados da ANA**: Exibe informações dos postos de monitoramento no Vale do Ribeira.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+2. **Informações Detalhadas**: Mostra nomes dos locais, medições em milímetros, datas e horários dos últimos registros.
 
-## Learn More
+3. **Sistema de Alerta**: Apresenta alertas em tempo real sobre o nível dos rios.
 
-To learn more about Next.js, take a look at the following resources:
+4. **Dados Meteorológicos**: Exibe temperatura e condições climáticas atuais usando a API do OpenWeather.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+5. **Interface Responsiva**: Design adaptável para diferentes dispositivos, graças ao Tailwind CSS e DaisyUI.
