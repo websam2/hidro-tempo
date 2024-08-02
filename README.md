@@ -11,16 +11,6 @@ Com o dashboard, é possível visualizar:
 - Alertas do nível em tempo real
 - Temperatura e clima atual (usando dados do Open Weather Map)
 
-## Pré-requisitos
-
-Certifique-se de ter as seguintes ferramentas instaladas em seu ambiente de desenvolvimento:
-
-- [Node.js](https://nodejs.org/) (que inclui npm)
-- [React](https://reactjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Axios](https://axios-http.com/)
-- [DaisyUI](https://daisyui.com/)
-
 ## Instalação
 
 Siga estes passos para configurar o projeto em sua máquina local:
