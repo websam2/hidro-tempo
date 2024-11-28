@@ -8,7 +8,7 @@ export default function CardFlu() {
     <div className="flex flex-col justify-center items-center sm:p-10">
       <div className="flex sm:flex-row flex-col sm:rounded-4xl bg-blue shadow-xl">
         <section className="flex flex-col justify-center items-center sm:w-1/4 sm:p-12 m-4 sm:m-0 sm:border-y-gray-light">
-          <APITempo />
+          {/* <APITempo /> */}
         </section>
         <section className="flex flex-wrap justify-center sm:p-4 bg-blue3 sm:w-3/4 border-y-gray-light rounded-4xl">
           <Card />

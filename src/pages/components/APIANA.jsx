@@ -6,6 +6,9 @@ import Image from "next/image";
 export default function APIANA({ id }) {
   const [dataHora, setDataHora] = useState(null);
   const [nivelSensor, setNivelSensor] = useState(null);
+  const [retryCount, setRetryCount] = useState(0);
+  const maxRetries = 3; // Maximum number of retry attempts
+  const retryDelay = 5000; // 5 seconds delay between retries
   const intervalRef = useRef(null);
   const dataAtual = new Date().toISOString();
 
@@ -16,21 +19,40 @@ export default function APIANA({ id }) {
       );
       const json = await parseStringPromise(response.data);
 
-      const dataHora =
-        json["DataTable"]["diffgr:diffgram"][0]["DocumentElement"][0][
-          "DadosHidrometereologicos"
-        ][0]["DataHora"];
+      const dadosHidro = json.DataTable["diffgr:diffgram"][0].DocumentElement[0].DadosHidrometereologicos[0];
+      
+      if (!dadosHidro || !dadosHidro.DataHora || !dadosHidro.NivelSensor) {
+        if (retryCount < maxRetries) {
+          console.log(`Tentativa ${retryCount + 1} de ${maxRetries}: Dados não disponíveis, tentando novamente em ${retryDelay/1000} segundos...`);
+          setRetryCount(prev => prev + 1);
+          setTimeout(fetchData, retryDelay);
+          return;
+        }
+          console.log("Número máximo de tentativas atingido. Dados não disponíveis.");
+          setRetryCount(0);
+      }
 
-      const nivelSensor =
-        json["DataTable"]["diffgr:diffgram"][0]["DocumentElement"][0][
-          "DadosHidrometereologicos"
-        ][0]["NivelSensor"];
+      const dataHora = dadosHidro.DataHora;
+      const nivelSensor = dadosHidro.NivelSensor;
 
-      setDataHora(dataHora);
+      // Formatar a data para o padrão brasileiro
+      const dataFormatada = new Date(dataHora).toLocaleString('pt-BR');
+
+      setDataHora(dataFormatada);
       setNivelSensor(nivelSensor);
+      setRetryCount(0); // Reset retry count on successful fetch
     } catch (err) {
       console.error(err);
+      if (retryCount < maxRetries) {
+        console.log(`Tentativa ${retryCount + 1} de ${maxRetries}: Erro na requisição, tentando novamente em ${retryDelay/1000} segundos...`);
+        setRetryCount(prev => prev + 1);
+        setTimeout(fetchData, retryDelay);
+        return;
+      }
+        console.log("Número máximo de tentativas atingido. Erro na requisição.");
+        setRetryCount(0);
     }
+    
     clearInterval(intervalRef.current);
     intervalRef.current = setTimeout(() => {
       fetchData();
@@ -57,7 +79,7 @@ export default function APIANA({ id }) {
           <section className="flex flex-col items-center">
             <h1 className="flex font-bold text-2xl m-4">
               <Image src="/ruler.png" alt="regua" width={20} height={20} />
-              {nivelSensor + "mm"}
+              {`${nivelSensor}mm`}
             </h1>
             <div className="flex flex-row">
               <Image

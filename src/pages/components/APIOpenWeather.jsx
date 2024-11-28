@@ -18,7 +18,7 @@ export default function APITempoLocal() {
     for (const city of cities) {
       try {
         const res = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.long}&appid=297cbb1ac83f050fc6a4126f11cd51bd&units=metric&lang=pt_br`
+          `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.long}&appid=${process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY}&units=metric&lang=pt_br`
         );
 
         newData.push({
