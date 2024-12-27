@@ -26,7 +26,6 @@
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
-    "daisyui": "^3.5.1",
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.6"
   }
