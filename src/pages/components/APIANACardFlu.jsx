@@ -52,7 +52,7 @@ const StationCard = ({ id, name }) => {
   }, []);
 
   return (
-    <section className="flex flex-col justify-center w-96 h-52 items-center m-2 p-4 bg-white rounded-md shadow-lg shadow-blue2">
+    <section className="flex flex-col justify-center items-center m-2 p-4 bg-white rounded-md shadow-lg shadow-blue2">
       <h1 className="font-bold mb-4 mt-4">{name}</h1>
       {nivelSensor === null || nivelSensor === 0 || nivelSensor === "0.00" || nivelSensor === "" ? (
         <p className="text-warning">Está em manutenção</p>
@@ -79,14 +79,54 @@ const StationCard = ({ id, name }) => {
 
 export default function CardFlu() {
   const stations = [
-    { id: 81881000, name: "BARRAGEM DO VALO GRANDE - JUSANTE" },
-    { id: 81880000, name: "BARRAGEM DO VALO GRANDE - MONTANTE" },
-    { id: 81200000, name: "CAPELA DA RIBEIRA" },
-    { id: 81380000, name: "ELDORADO" },
-    { id: 81350000, name: "IPORANGA" },
-    { id: 81683000, name: "REGISTRO" },
-    { id: 81420000, name: "SETE BARRAS" },
-    { id: 81679000, name: "JUQUIÁ" }
+    {
+      id: "81881000",
+      name: "BARRAGEM DO VALO GRANDE - JUSANTE",
+    },
+    {
+      id: "81880000",
+      name: "BARRAGEM DO VALO GRANDE - MONTANTE",
+    },
+    {
+      id: "81200000",
+      name: "CAPELA DA RIBEIRA",
+    },
+    {
+      id: "81380000",
+      name: "ELDORADO",
+    },
+    {
+      id: "81350000",
+      name: "IPORANGA",
+    },
+    {
+      id: "81683000",
+      name: "REGISTRO",
+    },
+    {
+      id: "81420000",
+      name: "SETE BARRAS",
+    },
+    {
+      id: "81679000",
+      name: "JUQUIÁ",
+    },
+    {
+      id: "81630000",
+      name: "MIRACATU",
+    },
+    {
+      id: "81710000",
+      name: "JACUPIRANGA",
+    },
+    {
+      id: "81337000",
+      name: "B. DO TURVO",
+    },
+    {
+      id: "81699000",
+      name: "B. DO AZEITE",
+    },
   ];
 
   return (
@@ -95,7 +135,7 @@ export default function CardFlu() {
         <section className="flex flex-col justify-center items-center sm:w-1/4 sm:p-12 m-4 sm:m-0 sm:border-y-gray-light">
           <APITempo />
         </section>
-        <section className="flex flex-wrap justify-center sm:p-4 bg-blue3 sm:w-3/4 border-y-gray-light rounded-4xl">
+        <section className="flex flex-wrap justify-center bg-blue3 border-y-gray-light rounded-4xl">
           {stations.map((station) => (
             <StationCard key={station.id} id={station.id} name={station.name} />
           ))}
