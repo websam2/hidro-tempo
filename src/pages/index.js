@@ -1,5 +1,5 @@
 import ButtonFooter from "./components/ButtonFooter.jsx";
-import CardFlu from "./components/CardFlu.jsx";
+import CardFlu from "./components/APIANACardFlu.jsx";
 import Image from "next/image";
 
 export default function Home() {

@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 export default function APITempoLocal() {
   const [removeLoading, setRemoveLoading] = useState(false);
 
-  const [cities, setCities] = useState([
+  const [cities] = useState([
     { name: "Registro", lat: -24.49496608966295, long: -47.846437048809655 },
   ]);
 
@@ -18,30 +18,32 @@ export default function APITempoLocal() {
     for (const city of cities) {
       try {
         const res = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.long}&appid=${process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY}&units=metric&lang=pt_br`
+          `https://api.hgbrasil.com/weather?format=json-cors&key=${process.env.NEXT_PUBLIC_HG_API_KEY}&lat=${city.lat}&lon=${city.long}`
         );
+
+        const weatherInfo = res.data.results;
 
         newData.push({
           name: city.name,
-          temperature: res.data.main.temp,
-          weather: res.data.weather[0].description,
-          tempMin: res.data.main.temp_min,
-          tempMax: res.data.main.temp_max,
-          icon: res.data.weather[0].icon,
+          temperature: weatherInfo.temp,
+          weather: weatherInfo.description,
+          tempMin: weatherInfo.forecast[0].min,
+          tempMax: weatherInfo.forecast[0].max,
+          icon: weatherInfo.condition_slug, 
         });
 
         setRemoveLoading(true);
       } catch (err) {
-        res.status(err.response ? err.response.status : 500);
-        res.send(err.message || "Algo de errado! Por favor tente mais tarde.");
+        console.error("Erro ao buscar dados do clima:", err);
       }
     }
 
     setWeatherData(newData);
   };
+
   useEffect(() => {
     fetchWeatherData();
-  });
+  }, []); // Adicionei array de dependências vazio para evitar loop infinito
 
   // data atualizada diariamente
   const dataAtual = new Date();
@@ -77,13 +79,13 @@ export default function APITempoLocal() {
               <div>
                 <div>Mínima:</div>
                 <div>
-                  <h2>{data.tempMin.toFixed(0)}ºC</h2>
+                  <h2>{data.tempMin}ºC</h2>
                 </div>
               </div>
               <div>
                 <div>Máxima:</div>
                 <div>
-                  <h2>{data.tempMax.toFixed(0)}ºC</h2>
+                  <h2>{data.tempMax}ºC</h2>
                 </div>
               </div>
             </div>
@@ -93,10 +95,10 @@ export default function APITempoLocal() {
             <Image
               width={100}
               height={100}
-              src={`https://openweathermap.org/img/wn/${data.icon}@2x.png`}
+              src={`https://assets.hgbrasil.com/weather/icons/conditions/${data.icon}.svg`}
               alt="ícone do clima"
             />
-            <h2 className="text-7xl">{data.temperature.toFixed(0)}ºC</h2>
+            <h2 className="text-7xl">{data.temperature}ºC</h2>
             <h2>{data.weather}</h2>
           </div>
         </div>
